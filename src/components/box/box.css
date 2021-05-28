@@ -1,0 +1,14 @@
+.game-box {
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgb(35, 206, 100);
+    font-weight: bold;
+    border: rgb(155, 155, 155);
+    height: 80vh;
+    width: 80vw;
+    margin: 10%;
+    border-style: outset;
+    background-color: rgb(241, 237, 237);
+}
