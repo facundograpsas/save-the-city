@@ -50,7 +50,7 @@ const LineCanvas = props => {
         }
     }, [draw])
 
-    return <canvas key={lineKey} className="line-canvas" width={width} height={height} ref={canvasRef} />
+    return <canvas key={lineKey} className="Line-canvas" width={width} height={height} ref={canvasRef} />
 }
 
 const destroyAndCreateLine = (setAnimation, hasCollide) => {

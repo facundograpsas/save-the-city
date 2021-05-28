@@ -88,7 +88,7 @@ const Box = ({ title }) => {
         }
     }
 
-    return <div className="game-box" onClick={handleClick} ref={gameBoxRef}>{title}
+    return <div className="Game-box" onClick={handleClick} ref={gameBoxRef}>{title}
         {line2.canvas}
         {line1.canvas}
         {circle1.canvas}

@@ -10,7 +10,6 @@ const CircleCanvas = props => {
     const canvasRef = useRef(null)
     let frameCount = 0
 
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const draw = (ctx, frameCount) => {
         ctx.clearRect(0, 1, ctx.canvas.width, ctx.canvas.height)
@@ -49,23 +48,15 @@ const CircleCanvas = props => {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 position({ color: currentColor })
             }
-
         }
-
         render()
 
         return () => {
             window.cancelAnimationFrame(animationFrameId)
         }
-
     }, [draw])
 
-    return <canvas key={"color"} className="my-canvas" width={width} height={height} ref={canvasRef} />
+    return <canvas key={"color"} className="Circle-canvas" width={width} height={height} ref={canvasRef} />
 }
-
-
-
-
-
 
 export default CircleCanvas
