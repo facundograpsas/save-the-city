@@ -52,16 +52,13 @@ const Box = ({ title }) => {
         setTimeout(() => {
             setLine2({ canvas: renderLine("2", randomNumber(1000), "b") })
         }, randomNumber(3000))
-
     }, [])
-
 
     const positions = (val) => {
         if (val.color !== undefined) { circlePos.current = val }
         else { linePos.current = val }
         checkCollision(circlePos.current, linePos.current)
     }
-
 
     const checkCollision = (circlePos, linePos) => {
         if (linePos[0] > circlePos.left && linePos[0] < circlePos.right && linePos[1] > circlePos.top && linePos[1] < circlePos.bottom) {
@@ -89,7 +86,6 @@ const Box = ({ title }) => {
         else {
             setCircle2({ canvas: renderCircle(mousePosX, mousePosY, "#A10000"), position: "asd" })
         }
-
     }
 
     return <div className="game-box" onClick={handleClick} ref={gameBoxRef}>{title}
@@ -103,6 +99,5 @@ const Box = ({ title }) => {
 const randomNumber = (max) => {
     return Math.random() * max
 }
-
 
 export default Box
