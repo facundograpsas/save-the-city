@@ -2,19 +2,21 @@ import React, { useState, useRef, useEffect } from 'react';
 import './line_canvas.css';
 
 const LineCanvas = props => {
-
     const { width, height, color, position, initialPos, lineKey, hasCollide } = props
+
     const [animating, setAnimation] = useState(true)
     const canvasRef = useRef(null)
+
+    const lineSpeed = Math.round(Math.random() * 7)
     const lineDirection = Math.round(Math.random())
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const draw = (ctx, frameCount) => {
-        ctx.clearRect(100, 500, ctx.canvas.width, ctx.canvas.height)
-        ctx.fillStyle = color
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+        // ctx.fillStyle = color
         ctx.beginPath()
         setDirection(lineDirection, ctx, frameCount, initialPos);
-        ctx.fill()
+        // ctx.fill()
     }
 
     useEffect(() => {
@@ -24,7 +26,7 @@ const LineCanvas = props => {
         let animationFrameId
 
         const render = () => {
-            frameCount += 2
+            frameCount += lineSpeed
             draw(context, frameCount)
             if (animating) {
                 if (frameCount % 5 === 0) {
@@ -40,6 +42,7 @@ const LineCanvas = props => {
         }
 
         if (hasCollide.current) {
+            console.log("LALALAL");
             destroyAndCreateLine(setAnimation, hasCollide);
         }
 
@@ -63,15 +66,20 @@ const destroyAndCreateLine = (setAnimation, hasCollide) => {
 
 const setDirection = (lineDirection, ctx, frameCount, initialPos) => {
     if (lineDirection) {
-        ctx.arc(frameCount + initialPos, frameCount, 2, 0, 10);
+        ctx.moveTo(initialPos, 0);
+        ctx.lineTo(initialPos + frameCount, frameCount);
+        ctx.stroke()
     }
     else {
-        ctx.arc(initialPos - frameCount, frameCount, 2, 0, 10);
+        ctx.moveTo(initialPos, 0);
+        ctx.lineTo(initialPos - frameCount, frameCount);
+        ctx.stroke()
     }
 }
 
 const setPosition = (lineDirection, position, frameCount, initialPos, lineKey) => {
     if (lineDirection) {
+
         position([frameCount + initialPos, frameCount, lineKey]);
     }
     else {

@@ -1,10 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import CircleCanvas from '../canvas/circle_canvas.js'
 import LineCanvas from '../canvas/line_canvas.js'
-
 import './box.css';
-
-
 
 const Box = ({ title }) => {
 

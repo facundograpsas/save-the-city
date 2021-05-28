@@ -1,7 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-
 import './circle_canvas.css';
-
 
 const CircleCanvas = props => {
     const { mouseX, mouseY, width, height, color, position } = props
