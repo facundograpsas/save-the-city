@@ -6,7 +6,7 @@ import Timer from '../timer/timer'
 const App = () => {
   return <div>
     <Box />
-    <Timer />
+    {/* <Timer /> */}
   </div>
 }
 export default App;

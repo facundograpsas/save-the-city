@@ -7,21 +7,29 @@ const Box = ({ title }) => {
 
     const [circle1, setCircle1] = useState({ canvas: null })
     const [circle2, setCircle2] = useState({ canvas: null })
-    const [nextCircle, setNextCircle] = useState(false)
+    const [circle3, setCircle3] = useState({ canvas: null })
+
+    const [nextCircle, setNextCircle] = useState(0)
 
     const [line1, setLine1] = useState({ canvas: null })
     const [line2, setLine2] = useState({ canvas: null })
+    const [line3, setLine3] = useState({ canvas: null })
+    const [line4, setLine4] = useState({ canvas: null })
+    const [line5, setLine5] = useState({ canvas: null })
+    const [line6, setLine6] = useState({ canvas: null })
+    const [line7, setLine7] = useState({ canvas: null })
+
+    const [lines, setLines] = useState(Array(7).fill("null"))
 
     const circlePos = useRef(0);
     const linePos = useRef(0)
     const collide = useRef(false)
     const gameBoxRef = useRef()
 
-    const renderLine = (color, initialPos, lineKey) => {
+    const renderLine = (initialPos, lineKey) => {
         return <LineCanvas
             height={gameBoxRef.current.offsetHeight}
             width={gameBoxRef.current.offsetWidth}
-            color={color}
             position={positions}
             initialPos={initialPos}
             lineKey={lineKey}
@@ -42,13 +50,17 @@ const Box = ({ title }) => {
 
     useEffect(() => {
 
-        setTimeout(() => {
-            setLine1({ canvas: renderLine("1", randomNumber(1000), "a") })
-        }, randomNumber(3000))
+        const linesIndex = ["a", "b", "c", "d", "e", "f", "g"]
+        const stateFunctions = [
+            setLine1, setLine2, setLine3, setLine4, setLine5, setLine6, setLine7
+        ]
 
-        setTimeout(() => {
-            setLine2({ canvas: renderLine("2", randomNumber(1000), "b") })
-        }, randomNumber(3000))
+        for (let i = 0; i < lines.length; i++) {
+            setTimeout(() => {
+                stateFunctions[i]({ canvas: renderLine(randomNumber(500), linesIndex[i]) })
+            },
+                Math.random() * 8000);
+        }
     }, [])
 
     const positions = (val) => {
@@ -58,43 +70,75 @@ const Box = ({ title }) => {
     }
 
     const checkCollision = (circlePos, linePos) => {
-        if (linePos[0] > circlePos.left && linePos[0] < circlePos.right && linePos[1] > circlePos.top && linePos[1] < circlePos.bottom) {
-            if (linePos[2] === "a") {
-                collide.current = true
-                setLine1({ canvas: renderLine("1", randomNumber(1000), "a") })
-            }
-            else {
-                collide.current = true
-                setLine2({ canvas: renderLine("2", randomNumber(1000), "b") })
+        if ((linePos[0] > circlePos.left && linePos[0] < circlePos.right) && (linePos[1] > circlePos.top && linePos[1] < circlePos.bottom)) {
+            collide.current = true
+            let myArr = [...lines]
+            myArr[linePos[2]] = { canvas: renderLine(randomNumber(1000), linePos[2]) }
+            switch (linePos[2]) {
+                case "a":
+                    setLines(myArr)
+                    break
+                case "b":
+                    setLine2({ canvas: renderLine(randomNumber(1000), "b") })
+                    break
+                case "c":
+                    setLine3({ canvas: renderLine(randomNumber(1000), "c") })
+                    break
+                case "d":
+                    setLine4({ canvas: renderLine(randomNumber(1000), "d") })
+                    break
+                case "e":
+                    setLine5({ canvas: renderLine(randomNumber(1000), "e") })
+                    break
+                case "f":
+                    setLine6({ canvas: renderLine(randomNumber(1000), "f") })
+                    break
+                case "g":
+                    setLine7({ canvas: renderLine(randomNumber(1000), "g") })
+                    break
+                default:
+                    break
             }
         }
     }
 
     const handleClick = (event) => {
 
-        const mousePosX = event.clientX - event.target.getBoundingClientRect().left
-        const mousePosY = event.clientY - event.target.getBoundingClientRect().top
+        const mousePosX = Math.round(event.clientX - event.target.getBoundingClientRect().left)
+        const mousePosY = Math.round(event.clientY - event.target.getBoundingClientRect().top)
 
-        setNextCircle(!nextCircle)
+        setNextCircle(prevInt => prevInt + 1)
 
-        if (nextCircle) {
-            setCircle1({ canvas: renderCircle(mousePosX, mousePosY, "#DF0541"), position: "asd" })
+        const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
+        if (nextCircle === 0) {
+            setCircle1({ canvas: renderCircle(mousePosX, mousePosY, "#" + randomColor) })
+        }
+        else if (nextCircle === 1) {
+            setCircle2({ canvas: renderCircle(mousePosX, mousePosY, "#" + randomColor) })
         }
         else {
-            setCircle2({ canvas: renderCircle(mousePosX, mousePosY, "#A10000"), position: "asd" })
+            setNextCircle(0)
+            setCircle3({ canvas: renderCircle(mousePosX, mousePosY, "#" + randomColor) })
         }
     }
 
     return <div className="Game-box" onClick={handleClick} ref={gameBoxRef}>{title}
-        {line2.canvas}
         {line1.canvas}
+        {line2.canvas}
+        {line3.canvas}
+        {line4.canvas}
+        {line5.canvas}
+        {line6.canvas}
+        {line7.canvas}
         {circle1.canvas}
         {circle2.canvas}
+        {circle3.canvas}
     </div>
 }
 
 const randomNumber = (max) => {
-    return Math.random() * max
+    return Math.round(Math.random() * max + 300)
 }
 
 export default Box
