@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import CircleCanvas from '../canvas/circle_canvas.js'
 import LineCanvas from '../canvas/line_canvas.js'
+
+import city from './city.png'
+
 import './box.css';
 
 const Box = ({ title }) => {
@@ -18,8 +21,9 @@ const Box = ({ title }) => {
     const [line5, setLine5] = useState({ canvas: null })
     const [line6, setLine6] = useState({ canvas: null })
     const [line7, setLine7] = useState({ canvas: null })
-
-    const [lines, setLines] = useState(Array(7).fill("null"))
+    const [line8, setLine8] = useState({ canvas: null })
+    const [line9, setLine9] = useState({ canvas: null })
+    const [line10, setLine10] = useState({ canvas: null })
 
     const circlePos = useRef(0);
     const linePos = useRef(0)
@@ -55,7 +59,7 @@ const Box = ({ title }) => {
             setLine1, setLine2, setLine3, setLine4, setLine5, setLine6, setLine7
         ]
 
-        for (let i = 0; i < lines.length; i++) {
+        for (let i = 0; i < linesIndex.length; i++) {
             setTimeout(() => {
                 stateFunctions[i]({ canvas: renderLine(randomNumber(500), linesIndex[i]) })
             },
@@ -70,13 +74,15 @@ const Box = ({ title }) => {
     }
 
     const checkCollision = (circlePos, linePos) => {
-        if ((linePos[0] > circlePos.left && linePos[0] < circlePos.right) && (linePos[1] > circlePos.top && linePos[1] < circlePos.bottom)) {
+        if (linePos[0] > circlePos.left && linePos[0] < circlePos.right && linePos[1] > circlePos.top && linePos[1] < circlePos.bottom) {
+            console.log("CIRCLE TOP: " + circlePos.top);
+            console.log("CIRCLE BOTTOM: " + circlePos.bottom);
+            console.log("LINE: " + linePos)
+
             collide.current = true
-            let myArr = [...lines]
-            myArr[linePos[2]] = { canvas: renderLine(randomNumber(1000), linePos[2]) }
             switch (linePos[2]) {
                 case "a":
-                    setLines(myArr)
+                    setLine1({ canvas: renderLine(randomNumber(1000), "a") })
                     break
                 case "b":
                     setLine2({ canvas: renderLine(randomNumber(1000), "b") })
@@ -124,13 +130,19 @@ const Box = ({ title }) => {
     }
 
     return <div className="Game-box" onClick={handleClick} ref={gameBoxRef}>{title}
+        <div className="City-box">
+            <img className="City-image" src={city} alt=""></img>
+        </div>
         {line1.canvas}
-        {line2.canvas}
+        {/* {line2.canvas}
         {line3.canvas}
         {line4.canvas}
         {line5.canvas}
         {line6.canvas}
-        {line7.canvas}
+        {line7.canvas} */}
+        {/* {line8.canvas}
+        {line9.canvas}
+        {line10.canvas} */}
         {circle1.canvas}
         {circle2.canvas}
         {circle3.canvas}

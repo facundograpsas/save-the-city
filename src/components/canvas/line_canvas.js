@@ -8,13 +8,14 @@ const LineCanvas = props => {
     const canvasRef = useRef(null)
 
     const lineDirection = Math.round(Math.random())
-    const lineAngle = Math.round(Math.random() * 10)
+    const xSpeed = Math.round(Math.random() * 2 + 1)
+    const ySpeed = Math.round(Math.random() * 3 + 1)
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     const draw = (ctx, xPos, yPos) => {
-        // ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-        // ctx.beginPath()
         setDirection(lineDirection, ctx, xPos, yPos, initialPos);
+        ctx.lineWidth = 0.1;
+        ctx.stroke()
     }
 
     useEffect(() => {
@@ -24,22 +25,20 @@ const LineCanvas = props => {
         let yPos = 0
         let animationFrameId
 
-        context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         context.beginPath()
         context.moveTo(initialPos, 0)
 
-
-
         const render = () => {
-            yPos += lineAngle
-            xPos += 5
+            yPos += ySpeed
+            xPos += xSpeed
+            // if (xPos % 10 === 0) {
             draw(context, xPos, yPos)
+            // }
             if (animating) {
-                if (xPos % 15 === 0) {
+                if (xPos % 5 === 0) {
                     setPosition(lineDirection, position, xPos, yPos, initialPos, lineKey);
                 }
                 animationFrameId = window.requestAnimationFrame(render)
-
             }
             else {
                 position([null, null, lineKey])
@@ -47,11 +46,13 @@ const LineCanvas = props => {
                 context.clearRect(0, 0, canvas.width, canvas.height);
             }
 
-            if (xPos - initialPos > 1000) {
+
+            if (yPos - initialPos > 300) {
                 destroyAndCreateLine(setAnimation, hasCollide);
             }
 
         }
+        context.stroke()
         if (hasCollide.current) {
             destroyAndCreateLine(setAnimation, hasCollide);
         }
@@ -76,20 +77,20 @@ const destroyAndCreateLine = (setAnimation, hasCollide) => {
 const setDirection = (lineDirection, ctx, xPos, yPos, initialPos) => {
     if (lineDirection) {
         ctx.lineTo(initialPos + xPos, yPos)
-        ctx.stroke()
     }
     else {
-        ctx.lineTo(initialPos - xPos, xPos);
-        ctx.stroke()
+        ctx.lineTo(initialPos - xPos, yPos);
     }
 }
 
 const setPosition = (lineDirection, position, xPos, yPos, initialPos, lineKey) => {
     if (lineDirection) {
         position([initialPos + xPos, yPos, lineKey]);
+        console.log([initialPos + xPos, yPos]);
     }
     else {
         position([initialPos - xPos, xPos, lineKey]);
+        console.log([initialPos + xPos, yPos]);
     }
 }
 

@@ -7,10 +7,11 @@ const CircleCanvas = props => {
     const currentColor = color;
     const canvasRef = useRef(null)
     let frameCount = 0
+    let circleSize = Math.round(Math.random() * 100 + 40)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const draw = (ctx, frameCount) => {
-        ctx.arc(mouseX, mouseY, 100 * Math.sin(frameCount * 0.03) ** 2, 0, 2 * 3.14)
+        ctx.arc(mouseX, mouseY, Math.round(100 * Math.sin(frameCount * 0.01) ** 2), 0, 2 * 3.14)
         ctx.fill()
     }
 
@@ -20,26 +21,28 @@ const CircleCanvas = props => {
         let animationFrameId
 
         context.fillStyle = color
-        context.clearRect(0, 1, context.canvas.width, context.canvas.height)
+        // context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         context.beginPath()
 
         const render = () => {
             frameCount++
+
             draw(context, frameCount)
 
             var collideObj = {
-                right: mouseX + (100 * Math.sin(frameCount * 0.03) ** 2),
-                left: mouseX - (100 * Math.sin(frameCount * 0.03) ** 2),
-                bottom: mouseY + (100 * Math.sin(frameCount * 0.03) ** 2),
-                top: mouseY - (100 * Math.sin(frameCount * 0.03) ** 2),
+                right: mouseX + (circleSize * Math.sin(frameCount * 0.01) ** 2),
+                left: mouseX - (circleSize * Math.sin(frameCount * 0.01) ** 2),
+                bottom: mouseY + (circleSize * Math.sin(frameCount * 0.01) ** 2),
+                top: mouseY - (circleSize * Math.sin(frameCount * 0.01) ** 2),
                 color: currentColor
             }
 
-            if (frameCount % 15 === 0) {
+            if (frameCount % 2 === 0) {
                 position(collideObj)
+                console.log(collideObj);
             }
 
-            if (frameCount < 50) {
+            if (frameCount < circleSize) {
                 animationFrameId = window.requestAnimationFrame(render)
             }
             else {
