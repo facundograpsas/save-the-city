@@ -36,3 +36,12 @@
     transform: rotate(360deg);
   }
 }
+
+.Game-title{
+  font-size: -webkit-xxx-large;
+  color: rgb(167, 136, 224);
+  font-weight: bold;
+  letter-spacing: 10px;
+  margin: 1%;
+  
+}

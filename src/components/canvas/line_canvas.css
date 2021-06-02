@@ -1,3 +1,5 @@
 .Line-canvas{
     position:absolute;
+    width: inherit;
+    height: inherit;
 }

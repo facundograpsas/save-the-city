@@ -14,7 +14,6 @@
 }
 
 .City-box{
-    /* display: inherit; */
     position: relative;
     width: inherit;
     height: inherit;
@@ -22,12 +21,12 @@
 
 .City-image{
     height: 50%;
-    /* left: 0%; */
-    /* align-items: end; */
     bottom: 0;
     position: absolute;
     align-content: center;
-    /* right: auto; */
     width: inherit;
     left: 0%;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
 }

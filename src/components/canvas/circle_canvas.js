@@ -1,10 +1,10 @@
-import React, { useRef, useEffect } from 'react';
-import './circle_canvas.css';
+import React, { useRef, useEffect } from 'react'
+import './circle_canvas.css'
 
 const CircleCanvas = props => {
     const { mouseX, mouseY, width, height, color, position } = props
 
-    const currentColor = color;
+    const currentColor = color
     const canvasRef = useRef(null)
     let frameCount = 0
     let circleSize = Math.round(Math.random() * 100 + 40)
@@ -14,14 +14,12 @@ const CircleCanvas = props => {
         ctx.arc(mouseX, mouseY, Math.round(100 * Math.sin(frameCount * 0.01) ** 2), 0, 2 * 3.14)
         ctx.fill()
     }
-
     useEffect(() => {
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
         let animationFrameId
 
         context.fillStyle = color
-        // context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         context.beginPath()
 
         const render = () => {
@@ -36,12 +34,9 @@ const CircleCanvas = props => {
                 top: mouseY - (circleSize * Math.sin(frameCount * 0.01) ** 2),
                 color: currentColor
             }
-
             if (frameCount % 2 === 0) {
                 position(collideObj)
-                console.log(collideObj);
             }
-
             if (frameCount < circleSize) {
                 animationFrameId = window.requestAnimationFrame(render)
             }
@@ -51,6 +46,7 @@ const CircleCanvas = props => {
                 position({ color: currentColor })
             }
         }
+
         render()
 
         return () => {
